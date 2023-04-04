@@ -1,4 +1,4 @@
-package ch.eglisi1.springweb.rest;
+package ch.eglisi1.springweb.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
