@@ -3,9 +3,12 @@ package ch.eglisi1.springweb.controller;
 import ch.eglisi1.springweb.model.SentimentAnalysis;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class SentimentController {
@@ -22,5 +25,19 @@ public class SentimentController {
         var prediction = sentimentAnalysis.getPredictionAsJson(text);
         logger.debug("Prediction for text '" + text + "' was: \n" + prediction);
         return prediction;
+    }
+
+    @GetMapping("/")
+    public ModelAndView index() {
+        return new ModelAndView("index");
+    }
+
+    @PostMapping("/sentimentThymeleaf")
+    public ModelAndView analyzeSentiment(@RequestParam("text") String text, Model model) {
+        logger.info("text: " + text);
+        String classifications = sentimentAnalysis.getPredictionAsJson(text);
+        logger.info("classification:\n" + classifications);
+        model.addAttribute("result", classifications);
+        return new ModelAndView("result");
     }
 }
